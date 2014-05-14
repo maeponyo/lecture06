@@ -1,5 +1,4 @@
 var INTERVAL = 1000;
-var DEFAULT_MESSAGE = "終了";
 
 var alarm = {
 		duration: -1,
@@ -11,27 +10,35 @@ var formatCounterAsString = function(){
 };
 
 var updateCounter = function(){
-		alarm.output.textContent = formatCounterAsString();
+		alarm.output2.textContent = formatCounterAsString();
 };
 
 var showAlarmMessage = function(){
-		var message = DEFAULT_MESSAGE;
-		if(alarm.message.length > 0){
-				message = alarm.message;
-		}
+		var message = "終了";
 		if(Notification.permission == "granted"){
 				var notification = new Notification(message);
 		}
-		alarm.output.textContent = message;
+		alarm.output2.textContent = message;
 };
+
+var showYoreiMessage = function(){
+		var message2 = "予鈴です";
+		if(Notification.permission == "granted"){
+				var notification = new Notification(message2);
+		}
+	};
 
 var update = function(){
 		alarm.duration = alarm.duration - 1;
+		alarm.yorei = alarm.yorei -1;
 		if(isReadyToCountdown()){
 				updateCounter();
 				window.setTimeout(update, INTERVAL);
 		}else{
 				showAlarmMessage();
+		}
+		if(alarm.yorei == 0){
+				showYoreiMessage();
 		}
 };
 
@@ -39,82 +46,15 @@ var isReadyToCountdown = function(){
 		return Number.isInteger(alarm.duration) && alarm.duration > 0;
 };
 
-var setupAlarm = function(durationString, message){
-		alarm.duration = Number(durationString),
-		alarm.message = message;
+var setupAlarm = function(durationString, yorei){
+		alarm.duration2 = Number(durationString),
+		alarm.duration　= alarm.duration2 * 60;
+		alarm.yorei2 = Number(yoreiInput);
+		alarm.yorei = alarm.yorei2 *60;
 };
 
 var startAlarm = function(){
-		setupAlarm(alarm.durationSelect.value, alarm.messageInput.value);
-		if(isReadyToCountdown()){
-				updateCounter();
-				window.setTimeout(update, INTERVAL);
-		}
-};
-
-var initApp = function(){
-		alarm.durationSelect = document.querySelector("#duration");
-		alarm.messageInput = document.querySelector("#message");
-		alarm.output = document.querySelector("#countdown");
-
-		Notification.requestPermission(function(status){
-				if(Notification.permission != status){
-						Notification.permission = status;
-				}
-		});
-
-		var startButton = document.querySelector("#start");
-		startButton.addEventListener("click", startAlarm);
-};
-
-initApp();var INTERVAL = 1000;
-var DEFAULT_MESSAGE = "終了";
-
-var alarm = {
-		duration: -1,
-		message: ""
-};
-
-var formatCounterAsString = function(){
-		return "あと" + alarm.duration + "秒";
-};
-
-var updateCounter = function(){
-		alarm.output.textContent = formatCounterAsString();
-};
-
-var showAlarmMessage = function(){
-		var message = DEFAULT_MESSAGE;
-		if(alarm.message.length > 0){
-				message = alarm.message;
-		}
-		if(Notification.permission == "granted"){
-				var notification = new Notification(message);
-		}
-		alarm.output.textContent = message;
-};
-
-var update = function(){
-		alarm.duration = alarm.duration - 1;
-		if(isReadyToCountdown()){
-				updateCounter();
-				window.setTimeout(update, INTERVAL);
-		}else{
-				showAlarmMessage();
-		}
-};
-
-var isReadyToCountdown = function(){
-		return Number.isInteger(alarm.duration) && alarm.duration > 0;
-};
-
-var setupAlarm = function(durationString, message){
-		alarm.duration = Number(durationString),
-		alarm.message = message;
-};
-
-var startAlarm = function(){
-		setupAlarm(alarm.durationSelect.value, alarm.messageInput.value);
+		setupAlarm(alarm.durationSelect.value, alarm.yoreiInput.value);
 		if(isReadyToCountdown()){
 				updateCounter();
 				window.setTimeout(update, INTERVAL);
@@ -123,8 +63,8 @@ var startAlarm = function(){
 
 var initApp = function(){
 		alarm.durationSelect = document.querySelector("#honrei");
-		alarm.messageInput = document.querySelector("#yorei");
-		alarm.output = document.querySelector("#countdown");
+		alarm.yoreiInput = document.querySelector("#yorei");
+		alarm.output2 = document.querySelector("#countdown2");
 
 		Notification.requestPermission(function(status){
 				if(Notification.permission != status){
@@ -132,7 +72,7 @@ var initApp = function(){
 				}
 		});
 
-		var startButton = document.querySelector("#start");
+		var startButton = document.querySelector("#start2");
 		startButton.addEventListener("click", startAlarm);
 };
 
