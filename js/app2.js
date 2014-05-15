@@ -49,7 +49,7 @@ var isReadyToCountdown = function(){
 var setupAlarm = function(durationString, yorei){
 		alarm.duration2 = Number(durationString),
 		alarm.duration　= alarm.duration2 * 60;
-		alarm.yorei2 = Number(yoreiInput);
+		alarm.yorei2 = Number(yorei);
 		alarm.yorei = alarm.yorei2 *60;
 };
 
@@ -72,7 +72,7 @@ var initApp = function(){
 				}
 		});
 
-		var startButton = document.querySelector("#start2");
+		var startButton = document.getElementById("start2");
 		startButton.addEventListener("click", startAlarm);
 };
 
